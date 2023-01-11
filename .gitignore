@@ -4,3 +4,6 @@ Objects/
 
 #工程页面布局文件
 *.uvguix.*
+
+#vscode打开keil工程的隐藏配置文件
+.vscode/

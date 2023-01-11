@@ -1,0 +1,6 @@
+#编译输出文件
+Listings/
+Objects/
+
+#工程页面布局文件
+*.uvguix.*

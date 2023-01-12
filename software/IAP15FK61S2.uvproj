@@ -49,7 +49,7 @@
           <OutputName>IAP15FK61S2</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\Listings\</ListingPath>
@@ -233,7 +233,7 @@
               <RCB>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
+                <Size>0xffff</Size>
               </RCB>
               <RXB>
                 <Type>0</Type>
@@ -324,7 +324,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>.\libraries\sushizhou_common;.\libraries\sushizhou_device;.\libraries\sushizhou_drive;.\user</IncludePath>
             </VariousControls>
           </C51>
           <Ax51>
@@ -374,19 +374,22 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>USER</GroupName>
+          <GroupName>user</GroupName>
           <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\main.c</FilePath>
+            </File>
             <File>
               <FileName>STARTUP.A51</FileName>
               <FileType>2</FileType>
               <FilePath>.\STARTUP.A51</FilePath>
             </File>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
-            </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>common</GroupName>
         </Group>
       </Groups>
     </Target>

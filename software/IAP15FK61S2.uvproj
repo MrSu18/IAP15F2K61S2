@@ -390,6 +390,19 @@
         </Group>
         <Group>
           <GroupName>common</GroupName>
+          <Files>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_common\delay.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>drive</GroupName>
+        </Group>
+        <Group>
+          <GroupName>device</GroupName>
         </Group>
       </Groups>
     </Target>

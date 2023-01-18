@@ -403,6 +403,13 @@
         </Group>
         <Group>
           <GroupName>device</GroupName>
+          <Files>
+            <File>
+              <FileName>su_key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_key.c</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>

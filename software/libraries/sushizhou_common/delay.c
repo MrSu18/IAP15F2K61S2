@@ -17,3 +17,28 @@ void Delay500ms()		//@11.0592MHz
 		} while (--j);
 	} while (--i);
 }
+
+void Delay100ms()		//@11.0592MHz
+{
+	unsigned char i, j;
+
+	i = 180;
+	j = 73;
+	do
+	{
+		while (--j);
+	} while (--i);
+}
+
+void Delay10ms()		//@11.0592MHz
+{
+	unsigned char i, j;
+
+	i = 18;
+	j = 235;
+	do
+	{
+		while (--j);
+	} while (--i);
+}
+

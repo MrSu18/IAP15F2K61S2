@@ -2,6 +2,7 @@
 #include "su_key.h"
 
 //独立按键扫描函数
+//使用的时候判断条件是(ReadKey()!=0xff),等待按键释放也是这个
 uint8_t ReadKey(void)
 {
     uint8_t temp;

@@ -409,6 +409,11 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_device\su_key.c</FilePath>
             </File>
+            <File>
+              <FileName>su_digital_tube.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_digital_tube.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

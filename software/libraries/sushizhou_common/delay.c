@@ -56,3 +56,15 @@ void Delay1ms()		//@11.0592MHz
 	} while (--i);
 }
 
+void Delay2ms()		//@11.0592MHz
+{
+	unsigned char i, j;
+
+	_nop_();
+	i = 4;
+	j = 146;
+	do
+	{
+		while (--j);
+	} while (--i);
+}

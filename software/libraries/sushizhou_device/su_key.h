@@ -10,5 +10,6 @@ sbit S5=P3^2;
 sbit S4=P3^3;
 
 uint8_t ReadKey(void);//¶ÀÁ¢°´¼üÉ¨Ãèº¯Êı
+uint8_t	ReadKeyBoard(void);
 
 #endif

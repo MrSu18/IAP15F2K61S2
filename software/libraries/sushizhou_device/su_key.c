@@ -55,3 +55,63 @@ void main(void)
     }
 }
 ************************************************************************************************/
+
+//∂¡»°æÿ’Ûº¸≈Ã
+uint8_t	ReadKeyBoard(void)
+{
+	uint8_t key_value = 0xff;
+	P30=P31=P32=P33=P34=P35=P42=P44=1;
+	P30=0;
+	if(P34==0)
+	{
+		key_value=1;
+	}
+	else if(P35==0)
+	{
+		key_value=2;
+	}
+	else if(P42==0)
+	{
+		key_value=3;
+	}
+	else if(P44==0)
+	{
+		key_value=4;
+	}
+	
+	return key_value;
+}
+
+/****************************************æÿ’Û∞¥º¸≤‚ ‘≥Ã–Ú***************************************
+void main(void)
+{
+	uint8_t temp;
+    ENABLE_LED_LATCH;
+	while (1)
+    {
+		temp=ReadKeyBoard();
+		if(temp!=0xff)
+		{
+			Delay10ms();
+			temp=ReadKeyBoard();
+			if(temp!=0xff)
+			{
+				switch(temp)
+				{
+					case 1: LED1=!LED1;break;
+					case 2: LED2=!LED2;break;
+					case 3: LED3=!LED3;break;
+					case 4: LED4=!LED4;break;
+					default: LED5=!LED5;break;
+				}
+				while(ReadKeyBoard()!=0xff);
+			}
+		}
+		else
+		{
+			LED6=!LED6;
+			Delay500ms();
+		}
+    }
+}
+************************************************************************************************/

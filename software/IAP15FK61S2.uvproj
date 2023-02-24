@@ -431,6 +431,11 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_device\su_ds1302.c</FilePath>
             </File>
+            <File>
+              <FileName>su_ds18b20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_ds18b20.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

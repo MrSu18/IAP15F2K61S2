@@ -12,7 +12,8 @@ void main(void)
 	DeviceInit();
 	while (1)
     {
-		DisplayTime();
+		//DisplayTime();
+		DisplayTemperature();
     }
 }
 

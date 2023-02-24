@@ -386,6 +386,11 @@
               <FileType>2</FileType>
               <FilePath>.\STARTUP.A51</FilePath>
             </File>
+            <File>
+              <FileName>su_S12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\su_S12.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -420,6 +425,11 @@
               <FileName>su_digital_tube.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_device\su_digital_tube.c</FilePath>
+            </File>
+            <File>
+              <FileName>su_ds1302.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_ds1302.c</FilePath>
             </File>
           </Files>
         </Group>

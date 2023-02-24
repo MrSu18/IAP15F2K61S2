@@ -3,16 +3,6 @@
 #include "su_common_typedef.h"
 #include "delay.h"
 
-//数码管位数端口
-sbit com1=P0^0;
-sbit com2=P0^1;
-sbit com3=P0^2;
-sbit com4=P0^3;
-sbit com5=P0^4;
-sbit com6=P0^5;
-sbit com7=P0^6;
-sbit com8=P0^7;
-
 uint8_t code t_display[]={                       //标准字库
 //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
     0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F,0x77,0x7C,0x39,0x5E,0x79,0x71,

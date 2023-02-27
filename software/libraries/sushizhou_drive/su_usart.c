@@ -26,11 +26,6 @@ void SendByte(unsigned char dat)
 	TI=0;
 }
 //串口重定向
-// int fputc(int ch, FILE *f)
-// {
-//     SendByte(ch);
-//     return ch;
-// }
 char putchar(char c)
 {
 	//输出重定向到串口

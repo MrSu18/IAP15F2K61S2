@@ -411,6 +411,16 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_drive\timer.c</FilePath>
             </File>
+            <File>
+              <FileName>iic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_drive\iic.c</FilePath>
+            </File>
+            <File>
+              <FileName>su_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_drive\su_usart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -435,6 +445,11 @@
               <FileName>su_ds18b20.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_device\su_ds18b20.c</FilePath>
+            </File>
+            <File>
+              <FileName>su_pcf8591.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_pcf8591.c</FilePath>
             </File>
           </Files>
         </Group>

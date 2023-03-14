@@ -8,6 +8,7 @@
 #include "stdio.h"
 #include "su_usart.h"
 #include "su_pcf8591.h"
+#include "su_eeprom.h"
 
 
 unsigned char Rdat;
@@ -27,19 +28,25 @@ unsigned char Rdat;
 void main(void)
 {
 	uint8_t adc=0,channel=0;
-	float adc_f=0;
+	uint8_t test=0;
 	ENABLE_LED_LATCH;
 	UartInit();
-	while(Pcf8591_Adc_Init(0x03)!=1)
+	while(Pcf8591_Adc_Init(0x04)!=1)
 	{
 		printf("adc init eeror\r\n");
 		Delay100ms();
 	}
+//	Write_Eeprom(0x00,5);
 	while (1)
     {
+		//=================ADC²É¼¯==========================
 		adc=AdcRead();
-		printf("%bu\r\n",adc);
-		Delay500ms();
+		if(adc==128) 	channel=-1;
+		else			channel=(channel+1)%4;
+//		printf("channel is %bu,data is %bu\r\n",channel,adc);
+		//=================µôµç´æ´¢=========================
+		test=Read_Eeprom(0x00);
+		printf("%bu\r\n",test);
     }
 }
 

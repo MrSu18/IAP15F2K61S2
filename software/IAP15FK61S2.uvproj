@@ -451,6 +451,11 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_device\su_pcf8591.c</FilePath>
             </File>
+            <File>
+              <FileName>su_eeprom .c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_eeprom .c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

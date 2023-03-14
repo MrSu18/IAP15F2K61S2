@@ -1,4 +1,4 @@
-﻿#ifndef _IIC_H
+#ifndef _IIC_H
 #define _IIC_H
 
 void IIC_Start(void); 

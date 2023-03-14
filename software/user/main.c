@@ -7,6 +7,7 @@
 #include "su_S12.h"
 #include "stdio.h"
 #include "su_usart.h"
+#include "su_pcf8591.h"
 
 
 unsigned char Rdat;
@@ -25,11 +26,19 @@ unsigned char Rdat;
 
 void main(void)
 {
-    ENABLE_LED_LATCH;
+	uint8_t adc=0,channel=0;
+	float adc_f=0;
+	ENABLE_LED_LATCH;
 	UartInit();
+	while(Pcf8591_Adc_Init(0x03)!=1)
+	{
+		printf("adc init eeror\r\n");
+		Delay100ms();
+	}
 	while (1)
     {
-		printf("hello\r\n");
+		adc=AdcRead();
+		printf("%bu\r\n",adc);
 		Delay500ms();
     }
 }

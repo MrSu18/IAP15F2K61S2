@@ -421,6 +421,11 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_drive\su_usart.c</FilePath>
             </File>
+            <File>
+              <FileName>su_exit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_drive\su_exit.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

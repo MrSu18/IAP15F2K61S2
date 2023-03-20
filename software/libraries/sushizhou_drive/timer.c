@@ -1,5 +1,7 @@
 #include "timer.h"
 #include <stc15f2k60s2.h>
+#include "su_led.h"
+#include "su_common_typedef.h"
 
 void Timer0Init(void)		//1毫秒@11.0592MHz
 {
@@ -16,3 +18,16 @@ void Timer0Init(void)		//1毫秒@11.0592MHz
 	ET0=1;//开启定时器0中断
 }
 
+void Time0_Sever() interrupt 1	//定时器0中断回调函数
+{
+	static uint8_t num=0;
+	if(num<100)
+	{
+		num++;
+	}
+	else
+	{
+		LED1=~LED1;//中断服务函数，如果是定时器没有自动重装载的话记得在这里重装初始，即设置：TH0和TL0的值
+		num=0;
+	}
+}

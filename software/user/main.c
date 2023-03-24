@@ -13,9 +13,9 @@ void main(void)
 	
 	while(1)
 	{
-		temp=rd_temperature();
-//		temperature=Read_DS18B20_temp();
-		printf("%bu\r\n",temp);
+//		temp=rd_temperature();
+		temperature=Read_DS18B20_temp();
+		printf("%f\r\n",temperature);
 		Delay500ms();
 	}
 }

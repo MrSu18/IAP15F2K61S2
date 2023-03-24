@@ -426,6 +426,11 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_drive\su_exit.c</FilePath>
             </File>
+            <File>
+              <FileName>onewire.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_drive\onewire.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

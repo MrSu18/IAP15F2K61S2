@@ -461,6 +461,11 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_device\su_eeprom .c</FilePath>
             </File>
+            <File>
+              <FileName>su_latch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_latch.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -1,13 +1,16 @@
 #include "su_S12.h"
-#include "su_ds1302.h"
-#include "su_digital_tube.h"
-#include "su_ds18b20.h"
+#include "su_ds18b20.h"//温度传感器
+#include "su_ds1302.h"//实时时钟模块
+#include "su_digital_tube.h"//数码管显示
+
 
 void DeviceInit(void)
 {
     //时钟模块初始化
     TimeBuff[4]=23;TimeBuff[5]=25;
 	DS1302_Write_Time();//写一次避免时钟模块里面足以开始不对
+	//温度传感器初始化
+	//单总线读取，不需要初始化
 }
 
 void DisplayTime(void)//时间显示界面

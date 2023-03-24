@@ -1,14 +1,15 @@
 #include "delay.h"
 #include <Intrins.h>//_nop_»úÆ÷ÖÜÆÚÑÓ³Ù
 
-void Delay500ms()		//@11.0592MHz
+void Delay500ms()		//@12.000MHz
 {
 	unsigned char i, j, k;
 
 	_nop_();
-	i = 4;
-	j = 129;
-	k = 119;
+	_nop_();
+	i = 23;
+	j = 205;
+	k = 120;
 	do
 	{
 		do
@@ -18,17 +19,25 @@ void Delay500ms()		//@11.0592MHz
 	} while (--i);
 }
 
-void Delay100ms()		//@11.0592MHz
-{
-	unsigned char i, j;
 
-	i = 180;
-	j = 73;
+void Delay100ms()		//@12.000MHz
+{
+	unsigned char i, j, k;
+
+	_nop_();
+	_nop_();
+	i = 5;
+	j = 144;
+	k = 71;
 	do
 	{
-		while (--j);
+		do
+		{
+			while (--k);
+		} while (--j);
 	} while (--i);
 }
+
 
 void Delay10ms()		//@11.0592MHz
 {

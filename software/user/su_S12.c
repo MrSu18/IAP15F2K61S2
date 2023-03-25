@@ -28,14 +28,14 @@ void DisplayTime(void)//时间显示界面
 
 void DisplayTemperature(void)//温度显示界面
 {
-    uint8_t temperature=0;//温度
-    temperature=rd_temperature();
+    float temperature=0;//温度
+    temperature=Read_DS18B20_temp();
     DigitalTubeDisplay(1,25);//U
     DigitalTubeDisplay(2,1);
     DigitalTubeDisplay(3,16);//熄灭
     DigitalTubeDisplay(4,16);
     DigitalTubeDisplay(5,16);
-    DigitalTubeDisplay(6,temperature/10);
-    DigitalTubeDisplay(7,temperature%10+30);
+//    DigitalTubeDisplay(6,temperature/10);
+//    DigitalTubeDisplay(7,temperature%10+30);
     //DigitalTubeDisplay(8,temperature/100);
 }

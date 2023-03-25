@@ -1,7 +1,9 @@
 #include "su_ds18b20.h"
 #include "reg52.h"
 #include "onewire.h"
+#include "su_common_typedef.h"
 
+int temperature=0;
 
 //DS18B20温度采集程序：整数
 unsigned char rd_temperature()
@@ -27,7 +29,7 @@ unsigned char rd_temperature()
     return temp;
 }
 
-float Read_DS18B20_temp()
+void Read_DS18B20_temp()
 {
 	unsigned char LSB=0,MSB=0;
 	int temp;
@@ -46,6 +48,5 @@ float Read_DS18B20_temp()
 	
 	temp=MSB<<8|LSB;//把高低字节合起来变成16位数据
 	
-	return temp*0.0625;//如果保留一位小数则扩大10倍，如果两位就100
-	
+	temperature=(int)(temp*0.0625*10);//扩大十倍为了方便求余,如果保留一位小数则扩大10倍，如果两位就100
 }

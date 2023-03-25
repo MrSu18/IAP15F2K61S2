@@ -3,7 +3,13 @@
 #include "su_ds1302.h"//实时时钟模块
 #include "su_digital_tube.h"//数码管显示
 #include "delay.h"
+#include "timer.h"
+#include "reg52.h"
+#include "su_key.h"
 
+uint8_t key_value=0;//按键读取到的值
+int cnt1=0,cnt2=0,cnt3=0;//读取传感器的计数器，读取按键的计数器，数码管显示的计数器
+uint8_t digitaltube_show[8]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07};//用于存放数码管显示的数字用于修改数码管显示的值
 
 void DeviceInit(void)
 {
@@ -12,53 +18,76 @@ void DeviceInit(void)
 	DS1302_Write_Time();//写一次避免时钟模块里面足以开始不对
 	//温度传感器初始化
 	//单总线读取，不需要初始化
+	Timer0Init();//开启定时器中断
+	EA=1;//开启总中断
 }
 
 void DisplayTime(void)//时间显示界面
 {
-    DS1302_Read_Time();
-    DigitalTubeDisplay(1,25);
-    DigitalTubeDisplay(2,2);
-    DigitalTubeDisplay(3,16);
-    DigitalTubeDisplay(4,TimeBuff[4]/10);
-    DigitalTubeDisplay(5,TimeBuff[4]%10);
-    DigitalTubeDisplay(6,17);
-    DigitalTubeDisplay(7,TimeBuff[5]/10);
-    DigitalTubeDisplay(8,TimeBuff[5]%10);
+	digitaltube_show[0]=t_display[25];
+	digitaltube_show[1]=t_display[2];
+	digitaltube_show[2]=t_display[16];
+	digitaltube_show[3]=t_display[TimeBuff[4]/10];
+	digitaltube_show[4]=t_display[TimeBuff[4]%10];
+	digitaltube_show[5]=t_display[17];
+	digitaltube_show[6]=t_display[TimeBuff[5]/10];
+	digitaltube_show[7]=t_display[TimeBuff[5]%10];
 }
 
 void DisplayTemperature(void)//温度显示界面
 {
-    float temperature=0;//温度
-	int intege=0;//整数小数
-    temperature=Read_DS18B20_temp();
-	intege=(int)(temperature*10);
-	
-    DigitalTubeDisplay(1,25);//U
-    DigitalTubeDisplay(2,1);
-    DigitalTubeDisplay(3,16);//熄灭
-    DigitalTubeDisplay(4,16);
-    DigitalTubeDisplay(5,16);
-    DigitalTubeDisplay(6,intege/100);
-    DigitalTubeDisplay(7,intege/10%10+30);
-    DigitalTubeDisplay(8,intege%10);
-	
-	DigitalTubeDisplay(4,16);//多给一位没用的一位显示，避免最后一位很亮
+	digitaltube_show[0]=t_display[25];//U
+	digitaltube_show[1]=t_display[1];
+	digitaltube_show[2]=t_display[16];//熄灭
+	digitaltube_show[3]=t_display[16];
+	digitaltube_show[4]=t_display[16];
+	digitaltube_show[5]=t_display[temperature/100];
+	digitaltube_show[6]=t_display[temperature/10%10+30];
+	digitaltube_show[7]=t_display[temperature%10];
 }
 
 void DisplaySetParameter(void)//参数设置的显示界面
 {
-	unsigned char temperature=0;//温度
-    temperature=rd_temperature();
+	digitaltube_show[0]=t_display[25];//U
+	digitaltube_show[1]=t_display[3];
+	digitaltube_show[2]=t_display[16];//熄灭
+	digitaltube_show[3]=t_display[16];
+	digitaltube_show[4]=t_display[16];
+	digitaltube_show[5]=t_display[16];
+	digitaltube_show[6]=t_display[temperature/100];
+	digitaltube_show[7]=t_display[temperature/10%10];
+}
+
+
+void S13Function()
+{
+	static uint8_t display_page=0;
+	if(cnt1==1000)//1S中读一次传感器
+	{
+		Read_DS18B20_temp();
+		DS1302_Read_Time();
+	}
+	if(cnt2==200)//0.2s读一次按键
+	{
+		key_value=ReadKeyBoard();
+		if(key_value!=0xff)
+		{
+			Delay10ms();
+			key_value=ReadKeyBoard();
+			while(ReadKeyBoard()!=0xff);//检测松手
+		}
+	}
 	
-	DigitalTubeDisplay(1,25);//U
-	DigitalTubeDisplay(2,3);//U
-	DigitalTubeDisplay(3,16);//熄灭
-    DigitalTubeDisplay(4,16);
-    DigitalTubeDisplay(5,16);
-	DigitalTubeDisplay(6,16);
-	DigitalTubeDisplay(7,temperature/10);
-    DigitalTubeDisplay(8,temperature%10);
-	
-	DigitalTubeDisplay(4,16);//多给一位没用的一位显示，避免最后一位很亮
+	switch(key_value)
+	{
+		case 12:display_page=(display_page+1)%3;break;
+		default:break;
+	}
+	switch(display_page)
+	{
+		case 0:DisplayTemperature();break;
+		case 1:DisplayTime();break;
+		case 2:DisplaySetParameter();break;
+		default:break;
+	}
 }

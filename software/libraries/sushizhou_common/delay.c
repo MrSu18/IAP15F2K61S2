@@ -39,17 +39,18 @@ void Delay100ms()		//@12.000MHz
 }
 
 
-void Delay10ms()		//@11.0592MHz
+void Delay10ms()		//@12.000MHz
 {
 	unsigned char i, j;
 
-	i = 18;
-	j = 235;
+	i = 20;
+	j = 113;
 	do
 	{
 		while (--j);
 	} while (--i);
 }
+
 
 
 void Delay1ms()		//@11.0592MHz

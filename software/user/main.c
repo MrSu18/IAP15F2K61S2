@@ -6,6 +6,7 @@
 
 #include "su_latch.h"
 #include <stc15f2k60s2.h>
+#include "su_digital_tube.h"
 
 void main(void)
 {	
@@ -14,11 +15,11 @@ void main(void)
 	UartInit();//串口初始化用于调试
 	
 	Select_Latch(5);
-	
+	P06=0;//蜂鸣器关
+	P04=1;//继电器关
 	while(1)
 	{
-		P06=0;//继电器关
-		P04=0;//蜂鸣器关
+		S13Function();
 	}
 }
 

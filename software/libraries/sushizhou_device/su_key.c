@@ -62,62 +62,62 @@ uint8_t	ReadKeyBoard(void)
 	uint8_t key_value = 0xff;
 	P30=P31=P32=P33=P34=P35=P42=P44=1;
 	//第一排
-	P30=0;
-	if(P34==0)
-	{
-		key_value=19;
-	}
-	else if(P35==0)
-	{
-		key_value=15;
-	}
-	else if(P42==0)
-	{
-		key_value=11;
-	}
-	else if(P44==0)
-	{
-		key_value=7;
-	}
-	P30=1;
+//	P30=0;
+//	if(P34==0)
+//	{
+//		key_value=19;
+//	}
+//	else if(P35==0)
+//	{
+//		key_value=15;
+//	}
+//	else if(P42==0)
+//	{
+//		key_value=11;
+//	}
+//	else if(P44==0)
+//	{
+//		key_value=7;
+//	}
+//	P30=1;
 	//第二排
-	P31=0;
-	if(P34==0)
-	{
-		key_value=18;
-	}
-	else if(P35==0)
-	{
-		key_value=14;
-	}
-	else if(P42==0)
-	{
-		key_value=10;
-	}
-	else if(P44==0)
-	{
-		key_value=6;
-	}
-	P31=1;
+//	P31=0;
+//	if(P34==0)
+//	{
+//		key_value=18;
+//	}
+//	else if(P35==0)
+//	{
+//		key_value=14;
+//	}
+//	else if(P42==0)
+//	{
+//		key_value=10;
+//	}
+//	else if(P44==0)
+//	{
+//		key_value=6;
+//	}
+//	P31=1;
 	//第三排
-	P32=0;
-	if(P34==0)
-	{
-		key_value=17;
-	}
-	else if(P35==0)
-	{
-		key_value=13;
-	}
-	else if(P42==0)
-	{
-		key_value=9;
-	}
-	else if(P44==0)
-	{
-		key_value=5;
-	}
-	P32=1;
+//	P32=0;
+//	if(P34==0)
+//	{
+//		key_value=17;
+//	}
+//	else if(P35==0)
+//	{
+//		key_value=13;
+//	}
+//	else if(P42==0)
+//	{
+//		key_value=9;
+//	}
+//	else if(P44==0)
+//	{
+//		key_value=5;
+//	}
+//	P32=1;
 	//第四排
 	P33=0;
 	if(P34==0)

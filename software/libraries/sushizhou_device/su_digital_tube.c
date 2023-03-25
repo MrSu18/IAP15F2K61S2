@@ -2,6 +2,7 @@
 #include <reg52.h>
 #include "su_common_typedef.h"
 #include "delay.h"
+#include "su_latch.h"
 
 uint8_t code t_display[]={                       //标准字库
 //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
@@ -14,9 +15,17 @@ uint8_t code T_COM[]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80}; //位选
 
 void DigitalTubeDisplay(uint8_t com,uint8_t num)//数码管显示
 {
-	ENABLE_DIGITALTUBE_WEIXUAN_LATCH;//Y6C有效，P0控制显示哪一位
-	P0=T_COM[com-1];          //P0=0000 0001，选通第一位（最左边一位）
-	ENABLE_DIGITALTUBE_DUANGXUAN_LATCH;//Y7C有效，P0控制显示哪一个数字
-	P0=~t_display[num];	//给P0输入数字1的段码，让数码管显示1
-	Delay2ms();	//演示两毫秒视觉停留
+	//在定时器中刷新数码管，所以不需要两毫秒的视觉停留
+	// 消隐
+	Select_Latch(7);P0 = 0xFF; 
+	// 送位选
+	Select_Latch(6);P0=T_COM[com]; 
+	// 送段码
+	Select_Latch(7);P0=num; 
+	
+//	ENABLE_DIGITALTUBE_WEIXUAN_LATCH;//Y6C有效，P0控制显示哪一位
+//	P0=T_COM[i];          //P0=0000 0001，选通第一位（最左边一位）
+//	ENABLE_DIGITALTUBE_DUANGXUAN_LATCH;//Y7C有效，P0控制显示哪一个数字
+//	P0=~t_display[i];	//给P0输入数字1的段码，让数码管显示1
+//	Delay2ms();	//演示两毫秒视觉停留
 }

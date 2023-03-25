@@ -12,13 +12,7 @@ void main(void)
 	
 	while(1)
 	{
-		temp=ReadKeyBoard();
-		if(temp!=0xff)
-		{
-			printf("%bu\r\n",temp);
-			while(ReadKeyBoard()!=0xff);
-		}
-		Delay200ms();
+		DisplaySetParameter();
 	}
 }
 

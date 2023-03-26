@@ -6,6 +6,7 @@
 #include "timer.h"
 #include "reg52.h"
 #include "su_key.h"
+#include <stdio.h>
 
 uint8_t key_value=0;//按键读取到的值
 int cnt1=0,cnt2=0,cnt3=0;//读取传感器的计数器，读取按键的计数器，数码管显示的计数器
@@ -62,27 +63,33 @@ void DisplaySetParameter(void)//参数设置的显示界面
 void S13Function()
 {
 	static uint8_t display_page=0;
-	if(cnt1==1000)//1S中读一次传感器
+	if(cnt1==900)//0.9S中读一次传感器
 	{
 		Read_DS18B20_temp();
 		DS1302_Read_Time();
 	}
-	if(cnt2==200)//0.2s读一次按键
+	if(cnt2==100)//0.1s读一次按键
 	{
 		key_value=ReadKeyBoard();
 		if(key_value!=0xff)
 		{
-			Delay10ms();
+			Delay10ms();//消抖
 			key_value=ReadKeyBoard();
-			while(ReadKeyBoard()!=0xff);//检测松手
+			if(key_value!=0xff)
+			{
+				switch(key_value)//响应按键的值,翻页的索引加一
+				{
+					case 12:display_page=(display_page+1)%3;break;
+					default:break;
+				}
+//				printf("%bu\r\n",key_value);
+				while(ReadKeyBoard()!=0xff);//检测松手
+			}
+			
 		}
 	}
 	
-	switch(key_value)
-	{
-		case 12:display_page=(display_page+1)%3;break;
-		default:break;
-	}
+//	printf("%bu\r\n",display_page);
 	switch(display_page)
 	{
 		case 0:DisplayTemperature();break;

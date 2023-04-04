@@ -100,24 +100,24 @@ uint8_t	ReadKeyBoard(void)
 //	}
 //	P31=1;
 	//第三排
-//	P32=0;
-//	if(P34==0)
-//	{
-//		key_value=17;
-//	}
-//	else if(P35==0)
-//	{
-//		key_value=13;
-//	}
-//	else if(P42==0)
-//	{
-//		key_value=9;
-//	}
-//	else if(P44==0)
-//	{
-//		key_value=5;
-//	}
-//	P32=1;
+	P32=0;
+	if(P34==0)
+	{
+		key_value=17;
+	}
+	else if(P35==0)
+	{
+		key_value=13;
+	}
+	else if(P42==0)
+	{
+		key_value=9;
+	}
+	else if(P44==0)
+	{
+		key_value=5;
+	}
+	P32=1;
 	//第四排
 	P33=0;
 	if(P34==0)

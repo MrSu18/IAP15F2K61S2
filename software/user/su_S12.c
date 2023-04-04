@@ -25,7 +25,7 @@ typedef struct LED_t//创建个LED结构体，赋值的时候打开锁存器P0=这个结构体定义的变
 uint8_t key_value=0;//按键读取到的值
 int cnt1=0,cnt2=0,cnt3=0;//读取传感器的计数器，读取按键的计数器，数码管显示的计数器
 uint8_t digitaltube_show[8]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07};//用于存放数码管显示的数字用于修改数码管显示的值
-char temp_thr_offset=0;//温度取整数部分,温度参数
+char temp_thr=23;//温度参数
 LED_t led;
 
 void DeviceInit(void)
@@ -36,8 +36,12 @@ void DeviceInit(void)
 	//温度传感器初始化
 	//单总线读取，不需要初始化
 	Timer0Init();//开启定时器中断
-	EA=1;//开启总中断
-	memset(&led,0xff,sizeof(LED_t));//在初始化的时候
+	memset(&led,0xff,sizeof(LED_t));//在初始化的时候把led的所有位置为1，因为memset是按照字节写的所以要0xff
+	while(temperature>=800)//温度传感器最开始读值是83.5
+	{
+		Read_DS18B20_temp();
+	}
+	EA=1;//开启总中断,这句一定要放在最后避免温度值还没初始化结束，使得数码管显示错误
 }
 
 void DisplayTime(void)//时间显示界面
@@ -66,15 +70,14 @@ void DisplayTemperature(void)//温度显示界面
 
 void DisplaySetParameter(void)//参数设置的显示界面
 {
-	int thr=(temperature/10)+temp_thr_offset;
 	digitaltube_show[0]=t_display[25];//U
 	digitaltube_show[1]=t_display[3];
 	digitaltube_show[2]=t_display[16];//熄灭
 	digitaltube_show[3]=t_display[16];
-	digitaltube_show[4]=t_display[temp_thr_offset];
+	digitaltube_show[4]=t_display[16];
 	digitaltube_show[5]=t_display[16];
-	digitaltube_show[6]=t_display[thr/10];
-	digitaltube_show[7]=t_display[thr%10];
+	digitaltube_show[6]=t_display[temp_thr/10];
+	digitaltube_show[7]=t_display[temp_thr%10];
 }
 
 
@@ -104,11 +107,29 @@ void S13Function()
 						Select_Latch(4);//使能LED锁存器
 						P0=*(uint8_t*)&led;
 						mode=-mode;break;//S13按键按下切换工作模式
-					case 16:temp_thr_offset--;break;
-					case 17:temp_thr_offset++;break;
+					case 16:
+						if(display_page==1)//时间显示界面
+						{
+							;
+						}
+						else if(display_page==2)//温度参数界面
+						{
+							temp_thr--;
+						}
+						break;
+					case 17:
+						if(display_page==1)//时间显示界面
+						{
+							;
+						}
+						else if(display_page==2)//温度参数界面
+						{
+							temp_thr++;
+						}
+						break;
 					default:break;
 				}
-				printf("%bu\r\n",key_value);
+//				printf("%bu\r\n",key_value);
 				while(ReadKeyBoard()!=0xff);//检测松手
 			}
 			

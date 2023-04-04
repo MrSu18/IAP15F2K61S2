@@ -3,7 +3,7 @@
 #include "onewire.h"
 #include "su_common_typedef.h"
 
-int temperature=0;
+int temperature=830;
 
 //DS18B20温度采集程序：整数
 unsigned char rd_temperature()

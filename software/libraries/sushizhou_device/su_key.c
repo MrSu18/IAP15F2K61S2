@@ -59,7 +59,7 @@ void main(void)
 //¶ÁÈ¡¾ØÕó¼üÅÌ
 uint8_t	ReadKeyBoard(void)
 {
-	uint8_t key_value = 0xff;
+	uint8_t key_value = 0;
 	P30=P31=P32=P33=P34=P35=P42=P44=1;
 	//µÚÒ»ÅÅ
 //	P30=0;
@@ -140,6 +140,7 @@ uint8_t	ReadKeyBoard(void)
 	
 	return key_value;
 }
+
 
 /****************************************¾ØÕó°´¼ü²âÊÔ³ÌĞò***************************************
 void main(void)

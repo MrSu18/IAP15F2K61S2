@@ -2,12 +2,25 @@
 #define	_SU_LED_H
 
 #include <stc15f2k60s2.h>
+#include "su_common_typedef.h"
 
 //LED锁存器
 #define	ENABLE_LED_LATCH	P2 = (P2&0x1f)|0x80	//使能LED对应的锁存器设置为透传模式 P2 & (0001 1111) | (1000 0000)
 //状态宏定义
 #define	ON	0
 #define	OFF	1
+
+typedef struct LED_t//创建个LED结构体，赋值的时候打开锁存器P0=这个结构体定义的变量即可
+{
+    uint8_t led1:1;
+    uint8_t led2:1;
+    uint8_t led3:1;
+    uint8_t led4:1;
+    uint8_t led5:1;
+    uint8_t led6:1;
+    uint8_t led7:1;
+    uint8_t led8:1;
+}LED_t;
 
 //LED
 sbit LED1=P0^0;

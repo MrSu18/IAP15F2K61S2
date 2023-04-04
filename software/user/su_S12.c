@@ -10,19 +10,7 @@
 #include "su_latch.h"
 #include <string.h>
 
-typedef struct LED_t//创建个LED结构体，赋值的时候打开锁存器P0=这个结构体定义的变量即可
-{
-    uint8_t led1:1;
-    uint8_t led2:1;
-    uint8_t led3:1;
-    uint8_t led4:1;
-    uint8_t led5:1;
-    uint8_t led6:1;
-    uint8_t led7:1;
-    uint8_t led8:1;
-}LED_t;
-
-uint8_t key_value=0;//按键读取到的值
+uint8_t key_now=0,key_down=0;//按键读取到的值
 int cnt1=0,cnt2=0,cnt3=0;//读取传感器的计数器，读取按键的计数器，数码管显示的计数器
 uint8_t digitaltube_show[8]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07};//用于存放数码管显示的数字用于修改数码管显示的值
 char temp_thr=23;//温度参数
@@ -46,14 +34,26 @@ void DeviceInit(void)
 
 void DisplayTime(void)//时间显示界面
 {
+	//判断是时分显示还是分秒显示
+	if(key_now==17)
+	{
+		digitaltube_show[3]=t_display[TimeBuff[5]/10];
+		digitaltube_show[4]=t_display[TimeBuff[5]%10];
+		digitaltube_show[6]=t_display[TimeBuff[6]/10];
+		digitaltube_show[7]=t_display[TimeBuff[6]%10];
+	}
+	else
+	{
+		digitaltube_show[3]=t_display[TimeBuff[4]/10];
+		digitaltube_show[4]=t_display[TimeBuff[4]%10];
+		digitaltube_show[6]=t_display[TimeBuff[5]/10];
+		digitaltube_show[7]=t_display[TimeBuff[5]%10];
+	}
+	//以下是固定显示的部分
 	digitaltube_show[0]=t_display[25];
 	digitaltube_show[1]=t_display[2];
 	digitaltube_show[2]=t_display[16];
-	digitaltube_show[3]=t_display[TimeBuff[4]/10];
-	digitaltube_show[4]=t_display[TimeBuff[4]%10];
 	digitaltube_show[5]=t_display[17];
-	digitaltube_show[6]=t_display[TimeBuff[5]/10];
-	digitaltube_show[7]=t_display[TimeBuff[5]%10];
 }
 
 void DisplayTemperature(void)//温度显示界面
@@ -70,6 +70,8 @@ void DisplayTemperature(void)//温度显示界面
 
 void DisplaySetParameter(void)//参数设置的显示界面
 {
+	if(key_down==17)	temp_thr++;
+	else if(key_down==16)	temp_thr--;
 	digitaltube_show[0]=t_display[25];//U
 	digitaltube_show[1]=t_display[3];
 	digitaltube_show[2]=t_display[16];//熄灭
@@ -83,6 +85,7 @@ void DisplaySetParameter(void)//参数设置的显示界面
 
 void S13Function()
 {
+	static uint8_t last_key_value=0;//用于三行代码消抖法
 	static uint8_t display_page=0;
 	static uint8_t mode=1;//工作模式 -1: 温度控制 1：时间控制
 	if(cnt1==900)//0.9S中读一次传感器
@@ -90,50 +93,22 @@ void S13Function()
 		Read_DS18B20_temp();
 		DS1302_Read_Time();
 	}
-	if(cnt2==100)//0.1s读一次按键
+	if(cnt2==10)//0.1s读一次按键
 	{
-		key_value=ReadKeyBoard();
-		if(key_value!=0xff)
+		key_now=ReadKeyBoard();
+		key_down=key_now&(last_key_value^key_now);
+		last_key_value=key_now;
+		switch(key_down)//响应按键的值
 		{
-			Delay10ms();//消抖
-			key_value=ReadKeyBoard();
-			if(key_value!=0xff)
-			{
-				switch(key_value)//响应按键的值
-				{
-					case 12:display_page=(display_page+1)%3;break;//S12按键按下翻页的索引加一
-					case 13:
-						led.led2=~led.led2;
-						Select_Latch(4);//使能LED锁存器
-						P0=*(uint8_t*)&led;
-						mode=-mode;break;//S13按键按下切换工作模式
-					case 16:
-						if(display_page==1)//时间显示界面
-						{
-							;
-						}
-						else if(display_page==2)//温度参数界面
-						{
-							temp_thr--;
-						}
-						break;
-					case 17:
-						if(display_page==1)//时间显示界面
-						{
-							;
-						}
-						else if(display_page==2)//温度参数界面
-						{
-							temp_thr++;
-						}
-						break;
-					default:break;
-				}
-//				printf("%bu\r\n",key_value);
-				while(ReadKeyBoard()!=0xff);//检测松手
-			}
-			
+			case 12:display_page=(display_page+1)%3;break;//S12按键按下翻页的索引加一
+			case 13:
+				led.led2=~led.led2;
+				Select_Latch(4);//使能LED锁存器
+				P0=*(uint8_t*)&led;
+				mode=-mode;break;//S13按键按下切换工作模式
+			default:break;
 		}
+//		printf("%bu\r\n",key_value);
 	}
 	
 //	printf("%bu\r\n",display_page);

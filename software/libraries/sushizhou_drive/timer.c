@@ -35,7 +35,7 @@ void Time0_Sever() interrupt 1	//定时器0中断回调函数
 	{
 		cnt1=0;
 	}
-	if(cnt2==100)//0.1s读一次按键
+	if(cnt2==10)//0.1s读一次按键
 	{
 		cnt2=0;
 	}

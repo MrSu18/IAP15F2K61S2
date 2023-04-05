@@ -12,5 +12,6 @@ void DisplayTime(void);//在数码管中显示题目要求的时间
 void DisplayTemperature(void);//温度显示界面
 void DisplaySetParameter(void);//参数设置的显示界面
 void S13Function(void);
+void S13TimeServer(void);
 
 #endif

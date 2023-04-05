@@ -15,9 +15,13 @@ int cnt1=0,cnt2=0,cnt3=0;//¶ÁÈ¡´«¸ĞÆ÷µÄ¼ÆÊıÆ÷£¬¶ÁÈ¡°´¼üµÄ¼ÆÊıÆ÷£¬ÊıÂë¹ÜÏÔÊ¾µÄ¼ÆÊ
 uint8_t digitaltube_show[8]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07};//ÓÃÓÚ´æ·ÅÊıÂë¹ÜÏÔÊ¾µÄÊı×ÖÓÃÓÚĞŞ¸ÄÊıÂë¹ÜÏÔÊ¾µÄÖµ
 char temp_thr=23;//ÎÂ¶È²ÎÊı
 LED_t led;
+uint8_t jidianqi_flag=0;//0£º¹Ø 1: ¿ª
 
 void DeviceInit(void)
 {
+	Select_Latch(5);
+	P06=0;//·äÃùÆ÷¹Ø
+	P04=0;//¼ÌµçÆ÷¹Ø
     //Ê±ÖÓÄ£¿é³õÊ¼»¯
     TimeBuff[4]=23;TimeBuff[5]=25;
 	DS1302_Write_Time();//Ğ´Ò»´Î±ÜÃâÊ±ÖÓÄ£¿éÀïÃæ×ãÒÔ¿ªÊ¼²»¶Ô
@@ -64,7 +68,7 @@ void DisplayTemperature(void)//ÎÂ¶ÈÏÔÊ¾½çÃæ
 	digitaltube_show[3]=t_display[16];
 	digitaltube_show[4]=t_display[16];
 	digitaltube_show[5]=t_display[temperature/100];
-	digitaltube_show[6]=t_display[temperature/10%10+30];
+	digitaltube_show[6]=t_display[temperature/10%10+32];
 	digitaltube_show[7]=t_display[temperature%10];
 }
 
@@ -87,7 +91,7 @@ void S13Function()
 {
 	static uint8_t last_key_value=0;//ÓÃÓÚÈıĞĞ´úÂëÏû¶¶·¨
 	static uint8_t display_page=0;
-	static uint8_t mode=1;//¹¤×÷Ä£Ê½ -1: ÎÂ¶È¿ØÖÆ 1£ºÊ±¼ä¿ØÖÆ
+	static char mode=-1;//¹¤×÷Ä£Ê½ -1: ÎÂ¶È¿ØÖÆ 1£ºÊ±¼ä¿ØÖÆ
 	if(cnt1==900)//0.9SÖĞ¶ÁÒ»´Î´«¸ĞÆ÷
 	{
 		Read_DS18B20_temp();
@@ -105,27 +109,60 @@ void S13Function()
 				led.led2=~led.led2;
 				Select_Latch(4);//Ê¹ÄÜLEDËø´æÆ÷
 				P0=*(uint8_t*)&led;
+				jidianqi_flag=0;//ÇĞ»»Ä£Ê½ÁËÕâ¸öflagÓ¦¸Ã¸Ä»ØÀ´
 				mode=-mode;break;//S13°´¼ü°´ÏÂÇĞ»»¹¤×÷Ä£Ê½
 			default:break;
 		}
-//		printf("%bu\r\n",key_value);
 	}
-	
-//	printf("%bu\r\n",display_page);
-	switch(display_page)//²Ëµ¥£¬¸ù¾İÏÔÊ¾µÄÒ³ÃæË÷ÒıÈ¥ĞŞ¸ÄÊıÂë¹ÜµÄÊı¾İĞŞ¸ÄÏÔÊ¾
+	//ĞŞ¸ÄÊıÂë¹Ü
+	switch(display_page)
 	{
 		case 0:DisplayTemperature();break;
 		case 1:DisplayTime();break;
 		case 2:DisplaySetParameter();break;
 		default:break;
 	}
-	
+	//ĞŞ¸Ä¼ÌµçÆ÷
 	switch(mode)
 	{
 		case -1:
+			if(temperature>(temp_thr*10) && jidianqi_flag==0)
+			{
+				Select_Latch(5);
+				P04=1;//¼ÌµçÆ÷¿ª
+				P06=0;//·äÃùÆ÷¹Ø
+				jidianqi_flag=1;
+			}
+			else if(temperature<=(temp_thr*10) && jidianqi_flag==1)
+			{
+				Select_Latch(5);
+				P04=0;//¼ÌµçÆ÷¹Ø
+				P06=0;//·äÃùÆ÷¹Ø
+				jidianqi_flag=0;
+			}
 			break;
 		case 1:
 			break;
 		default:break;
 	}
+}
+
+void S13TimeServer(void)
+{
+	//===========¶¯Ì¬Ë¢ĞÂÊıÂë¹ÜÒ»´ÎÖĞ¶Ï¾ÍË¢ĞÂÒ»Î»==================
+	static uint8_t i=0;
+	DigitalTubeDisplay(i,~digitaltube_show[i]);
+	i++;
+	if(i==8) i=0;
+	//==============================================================
+	
+	if(cnt1==900)//1SÖĞ¶ÁÒ»´Î´«¸ĞÆ÷
+	{
+		cnt1=0;
+	}
+	if(cnt2==10)//0.1s¶ÁÒ»´Î°´¼ü
+	{
+		cnt2=0;
+	}
+	cnt1++;cnt2++;
 }

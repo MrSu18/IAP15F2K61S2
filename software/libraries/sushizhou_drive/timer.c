@@ -24,20 +24,5 @@ void Timer0Init(void)		//1毫秒@12.000MHz
 
 void Time0_Sever() interrupt 1	//定时器0中断回调函数
 {
-	//===========动态刷新数码管一次中断就刷新一位==================
-	static uint8_t i=0;
-	DigitalTubeDisplay(i,~digitaltube_show[i]);
-	i++;
-	if(i==8) i=0;
-	//==============================================================
-	
-	if(cnt1==900)//1S中读一次传感器
-	{
-		cnt1=0;
-	}
-	if(cnt2==10)//0.1s读一次按键
-	{
-		cnt2=0;
-	}
-	cnt1++;cnt2++;
+	S13TimeServer();
 }

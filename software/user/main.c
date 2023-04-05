@@ -11,12 +11,10 @@
 void main(void)
 {	
 	unsigned char temp=0,status=0;
+	
 	DeviceInit();//设备初始化
 	UartInit();//串口初始化用于调试
 	
-	Select_Latch(5);
-	P06=0;//蜂鸣器关
-	P04=1;//继电器关
 	while(1)
 	{
 		S13Function();

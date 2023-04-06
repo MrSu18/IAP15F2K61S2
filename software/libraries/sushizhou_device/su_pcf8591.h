@@ -6,5 +6,6 @@
 
 bit Pcf8591_Adc_Init(uint8_t addr);//≥ı ºªØpcf8591
 uint8_t AdcRead();
+void PCF8591_Dac(unsigned char dat);
 
 #endif

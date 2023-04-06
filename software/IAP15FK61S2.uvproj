@@ -471,6 +471,11 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_device\su_latch.c</FilePath>
             </File>
+            <File>
+              <FileName>su_ultrasonic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_ultrasonic.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

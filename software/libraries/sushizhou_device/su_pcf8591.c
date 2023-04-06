@@ -34,3 +34,16 @@ uint8_t AdcRead()
 	IIC_SendAck(0);
 	return _data;
 }
+
+// DAC 输出
+void PCF8591_Dac(unsigned char dat) 
+{ 
+	IIC_Start(); 
+	IIC_SendByte(PCF8591_W_ADD); 
+	IIC_WaitAck(); 
+	IIC_SendByte(0x40); // 允许 DAC，ADC 通道 3 
+	IIC_WaitAck(); 
+	IIC_SendByte(dat); // dat-输出数模转换的数据
+	IIC_WaitAck(); 
+	IIC_Stop(); 
+} 

@@ -24,5 +24,5 @@ void Timer0Init(void)		//1毫秒@12.000MHz
 
 void Time0_Sever() interrupt 1	//定时器0中断回调函数
 {
-	S13TimeServer();
+//	S13TimeServer();
 }

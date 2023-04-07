@@ -7,6 +7,7 @@
 #include "su_latch.h"
 #include <stc15f2k60s2.h>
 #include "su_digital_tube.h"
+#include "su_ultrasonic.h"
 
 void main(void)
 {	
@@ -14,9 +15,13 @@ void main(void)
 	
 //	DeviceInit();//设备初始化
 	UartInit();//串口初始化用于调试
-	PCF8591_Dac(0xff);
+//	PCF8591_Dac(0xff);
 	while(1)
 	{
+		temp=UltrasonicMeasure();
+//		printf("hello\r\n");
+		printf("%bu\r\n",temp);
+		Delay100ms();
 //		S13Function();
 	}
 }

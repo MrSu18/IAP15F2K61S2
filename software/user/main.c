@@ -8,6 +8,7 @@
 #include <stc15f2k60s2.h>
 #include "su_digital_tube.h"
 #include "su_ultrasonic.h"
+#include "su_ne555.h"
 
 void main(void)
 {	
@@ -16,11 +17,14 @@ void main(void)
 //	DeviceInit();//设备初始化
 	UartInit();//串口初始化用于调试
 //	PCF8591_Dac(0xff);
+	Ne555TimInit();
+	Ne555CountInit();
+	EA=1;
 	while(1)
 	{
-		temp=UltrasonicMeasure();
+//		temp=UltrasonicMeasure();
 //		printf("hello\r\n");
-		printf("%bu\r\n",temp);
+		printf("%bu\r\n",frequency);
 		Delay100ms();
 //		S13Function();
 	}

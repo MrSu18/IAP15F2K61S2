@@ -476,6 +476,11 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_device\su_ultrasonic.c</FilePath>
             </File>
+            <File>
+              <FileName>su_ne555.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_ne555.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

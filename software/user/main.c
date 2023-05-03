@@ -24,8 +24,11 @@ void main(void)
 	{
 //		temp=UltrasonicMeasure();
 //		printf("hello\r\n");
-		printf("%bu\r\n",frequency);
-		Delay100ms();
+		digitaltube_show[3]=t_display[frequency/10000%10];
+		digitaltube_show[4]=t_display[frequency/1000%10];
+		digitaltube_show[5]=t_display[frequency/100%10];
+		digitaltube_show[6]=t_display[frequency/10%10];
+		digitaltube_show[7]=t_display[frequency%10];
 //		S13Function();
 	}
 }

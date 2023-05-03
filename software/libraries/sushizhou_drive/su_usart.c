@@ -32,12 +32,12 @@ char putchar(char c)
 }
 
 unsigned char Rdat;
- void ServiceUart() interrupt 4
- {
- 	if(RI==1)//如果接收完成
- 	{
- 		Rdat=SBUF;//Rdat为从上位机接收到的数据
- 		RI=0;				
- 		SendByte(Rdat);//再将收到的数据再发送到上位机
- 	}
- }
+void ServiceUart() interrupt 4
+{
+	if(RI==1)//如果接收完成
+	{
+		Rdat=SBUF;//Rdat为从上位机接收到的数据
+		RI=0;				
+		SendByte(Rdat);//再将收到的数据再发送到上位机
+	}
+}

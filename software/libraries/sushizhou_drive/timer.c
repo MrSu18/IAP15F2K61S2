@@ -42,9 +42,19 @@ void Time1_Sever()	interrupt 3//定时器1中断回调函数
 	ne555_cnt++;
 	if(ne555_cnt==1000)//1s到了
 	{
-		frequency=(TH0<<8)|TL0;
+		TR0=0;//停止计数
+		if(TF0==1) 
+		{
+			frequency=0;
+			TF0=0;
+		}
+		else
+		{
+			frequency=(TH0<<8)|TL0;
+		}
 		TH0=TL0=0;
 		ne555_cnt=0;
+		TR0=1;//开始新一轮计数
 	}
 	//============================================
 }

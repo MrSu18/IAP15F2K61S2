@@ -18,15 +18,11 @@ void EXTI_Init(void)
 //外部中断0中断服务函数
 void EXTI0_Sever(void) interrupt 0
 {
-	P2 = ((P2&0x1f)|0x80);
-    LED1 = ~LED1;    
-	P2 = P2&0x1f;
+	;
 }
                         
 //外部中断1中断服务函数
 void EXTI1_Sever(void) interrupt 2
 {
-	P2 = ((P2&0x1f)|0x80);
-    LED2 = ~LED2;    
-	P2 = P2&0x1f;
+	;
 }

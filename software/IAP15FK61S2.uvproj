@@ -481,6 +481,11 @@
               <FileType>1</FileType>
               <FilePath>.\libraries\sushizhou_device\su_ne555.c</FilePath>
             </File>
+            <File>
+              <FileName>su_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\libraries\sushizhou_device\su_led.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

@@ -34,13 +34,13 @@ unsigned char UltrasonicMeasure(void)
 	TL0=TH0=0;
 	UltrasonicStar();
 	TR0=1;//开始计时
-	while((RX==1)&&(TF0==0));
-	TR0=0;
+	while((RX==1)&&(TF0==0));//等待RX信号变0，接受到回来的信号
+	TR0=0;//停止计时
 	if(TF0==0)
 	{
-		time=TH0<<8|TL0;
-		
-		return time*0.017;
+		time=TH0<<8|TL0;//声波出去回来的时间
+		//计数值+1表示1us，因为是12T
+		return time*0.017;//时间换算
 	}
 	else
 	{

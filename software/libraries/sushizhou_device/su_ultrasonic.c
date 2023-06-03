@@ -27,7 +27,7 @@ void UltrasonicStar(void)//启动超声波模块
 	}
 } 
 
-unsigned char UltrasonicMeasure(void) 
+unsigned char UltrasonicMeasure(void) //需要用的时候直接调用这里就好了
 { 
 	unsigned int time=0;
 	TMOD&=0XF0;
@@ -47,5 +47,4 @@ unsigned char UltrasonicMeasure(void)
 		TF0=0;
 		return 200;
 	}
-	return 200;
 }

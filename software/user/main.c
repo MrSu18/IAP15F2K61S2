@@ -9,28 +9,34 @@
 #include "delay.h"
 #include "su_digital_tube.h"
 #include "su_S12.h"
+#include "su_pcf8591.h"
+
+#include "iic.h"
+#define PCF8591_W_ADD	0X90	//PCF8591的写地址
+#define PCF8591_R_ADD	0X91	//PCF8591的读地址
 
 void main(void)
 {	
+	uint8_t adc;
 	//关闭蜂鸣器和继电器
 	Select_Latch(5);P04=0;P06=0;
 	//初始化led全为暗
 	memset(&led_object,0xff,1);Select_Latch(4);P0=*(uint8_t*)&led_object;
 	//NE555初始化
 	Ne555TimInit();//NE555定时器初始化
-//	Ne555CountInit();//NE555记数器初始化
+	Ne555CountInit();//NE555记数器初始化
 	//串口初始化
-//	UartInit();
+	UartInit();
+	//adc模块初始化
+	Pcf8591_Adc_Init(0x43);//允许DA输出ADC采集通道3
 	//开启总中断EA
 	EA=1;
 	while (1)
 	{
-		uint8_t distance=UltrasonicMeasure();
-//		printf("%bu\r\n",distance);
-		digitaltube_show[2]=t_display[distance%10];
-		digitaltube_show[1]=t_display[distance/10%10];
-		digitaltube_show[0]=t_display[distance/100%10];
-		Delay100ms();
+		adc=PCF8591_ADC(0x43);
+		PCF8591_Dac(4.0/5*255);
+		printf("%bu\r\n",adc);
+		Delay200ms();
 	}
 	
 }

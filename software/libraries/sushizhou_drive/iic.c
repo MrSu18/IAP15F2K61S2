@@ -94,7 +94,7 @@ unsigned char IIC_RecByte(void)
     unsigned char i, da;
     for(i=0; i<8; i++)
     {   
-    	SCL = 1;
+        SCL = 1;
 		IIC_Delay(DELAY_TIME);
 		da <<= 1;
 		if(SDA) da |= 1;

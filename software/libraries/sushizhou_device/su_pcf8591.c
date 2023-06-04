@@ -4,15 +4,15 @@
 #define PCF8591_W_ADD	0X90	//PCF8591的写地址
 #define PCF8591_R_ADD	0X91	//PCF8591的读地址
 
-//参数addr：控制字
-bit Pcf8591_Adc_Init(uint8_t addr)
+//参数control_byte：控制字
+bit Pcf8591_Adc_Init(uint8_t control_byte)
 {
 	bit OK = 0;
 	IIC_Start();
 	IIC_SendByte(PCF8591_W_ADD);
 	if(!IIC_WaitAck());
 	{
-		IIC_SendByte(addr);	
+		IIC_SendByte(control_byte);	
 		if(!IIC_WaitAck());
 		{
 			IIC_Stop();
@@ -32,6 +32,24 @@ uint8_t AdcRead()
 	uint8_t _data;
 	_data = IIC_RecByte();
 	IIC_SendAck(0);
+	
+}
+
+//读取ADC的值
+uint8_t PCF8591_ADC(uint8_t control_byte)
+{
+	uint8_t _data;
+	IIC_Start();
+	IIC_SendByte(PCF8591_W_ADD);		//发送器件地址，写
+	IIC_WaitAck();
+	IIC_SendByte(control_byte);		//发送控制字节
+	IIC_WaitAck();
+	IIC_Start();
+	IIC_SendByte(PCF8591_R_ADD);		//发送器件地址，读
+	IIC_WaitAck();
+	_data=IIC_RecByte();		//读一个字节数据
+	IIC_SendAck(1);			//主机发送非应答，不再接收数据
+	IIC_Stop();
 	return _data;
 }
 

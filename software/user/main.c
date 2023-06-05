@@ -19,9 +19,9 @@ void main(void)
 {	
 	uint8_t adc;
 	//关闭蜂鸣器和继电器
-	Select_Latch(5);P04=0;P06=0;
+	P04=0;P06=0;Select_Latch(5);
 	//初始化led全为暗
-	memset(&led_object,0xff,1);Select_Latch(4);P0=*(uint8_t*)&led_object;
+	memset(&led_object,0xff,1);P0=*(uint8_t*)&led_object;Select_Latch(4);
 	//NE555初始化
 	Ne555TimInit();//NE555定时器初始化
 	Ne555CountInit();//NE555记数器初始化
@@ -33,10 +33,8 @@ void main(void)
 	EA=1;
 	while (1)
 	{
-		adc=PCF8591_ADC(0x43);
-		PCF8591_Dac(4.0/5*255);
-		printf("%bu\r\n",adc);
-		Delay200ms();
+		printf("%d\r\n",frequency);
+		Delay500ms();
 	}
 	
 }

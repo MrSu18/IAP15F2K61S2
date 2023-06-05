@@ -12,16 +12,15 @@
 
 uint8_t key_now=0,key_down=0;//按键读取到的值
 int cnt1=0,cnt2=0,cnt3=0;//读取传感器的计数器，读取按键的计数器，数码管显示的计数器
-uint8_t digitaltube_show[8]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07};//用于存放数码管显示的数字用于修改数码管显示的值
 char temp_thr=23;//温度参数
 LED_t led;
 uint8_t jidianqi_flag=0;//0：关 1: 开
 
 void DeviceInit(void)
 {
-	Select_Latch(5);
 	P06=0;//蜂鸣器关
 	P04=0;//继电器关
+	Select_Latch(5);
     //时钟模块初始化
     TimeBuff[4]=23;TimeBuff[5]=25;
 	DS1302_Write_Time();//写一次避免时钟模块里面足以开始不对
@@ -107,8 +106,8 @@ void S13Function()
 			case 12:display_page=(display_page+1)%3;break;//S12按键按下翻页的索引加一
 			case 13:
 				led.led2=~led.led2;
-				Select_Latch(4);//使能LED锁存器
 				P0=*(uint8_t*)&led;
+				Select_Latch(4);//使能LED锁存器
 				jidianqi_flag=0;//切换模式了这个flag应该改回来
 				mode=-mode;break;//S13按键按下切换工作模式
 			default:break;
@@ -128,16 +127,16 @@ void S13Function()
 		case -1:
 			if(temperature>(temp_thr*10) && jidianqi_flag==0)
 			{
-				Select_Latch(5);
 				P04=1;//继电器开
 				P06=0;//蜂鸣器关
+				Select_Latch(5);
 				jidianqi_flag=1;
 			}
 			else if(temperature<=(temp_thr*10) && jidianqi_flag==1)
 			{
-				Select_Latch(5);
 				P04=0;//继电器关
 				P06=0;//蜂鸣器关
+				Select_Latch(5);
 				jidianqi_flag=0;
 			}
 			break;

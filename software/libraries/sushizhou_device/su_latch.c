@@ -11,4 +11,5 @@ void Select_Latch(int num)//选择使能几号锁存器
 		case 7:P2=(P2&0x1F)|0xE0;break;		//数码管段选锁存器
 		default:break;
 	}
+	P2=(P2&0x1F);//关闭锁存器
 }

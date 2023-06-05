@@ -13,19 +13,16 @@ uint8_t code t_display[]={                       //标准字库
 
 uint8_t code T_COM[]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80}; //位选
 
+uint8_t digitaltube_show[8]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07};//用于存放数码管显示的数字用于修改数码管显示的值
+
 void DigitalTubeDisplay(uint8_t com,uint8_t num)//数码管显示
 {
 	//在定时器中刷新数码管，所以不需要两毫秒的视觉停留
 	// 消隐
-	Select_Latch(7);P0 = 0xFF; 
+	P0 = 0xFF;Select_Latch(7);
 	// 送位选
-	Select_Latch(6);P0=T_COM[com]; 
+	P0=T_COM[com];Select_Latch(6);
 	// 送段码
-	Select_Latch(7);P0=num; 
-	
-//	ENABLE_DIGITALTUBE_WEIXUAN_LATCH;//Y6C有效，P0控制显示哪一位
-//	P0=T_COM[i];          //P0=0000 0001，选通第一位（最左边一位）
-//	ENABLE_DIGITALTUBE_DUANGXUAN_LATCH;//Y7C有效，P0控制显示哪一个数字
-//	P0=~t_display[i];	//给P0输入数字1的段码，让数码管显示1
-//	Delay2ms();	//演示两毫秒视觉停留
+	P0=num;Select_Latch(7);
+
 }

@@ -8,6 +8,7 @@
 
 extern uint8_t code t_display[];
 extern uint8_t code T_COM[];
+extern uint8_t digitaltube_show[8];//用于存放数码管显示的数字用于修改数码管显示的值
 
 void DigitalTubeDisplay(uint8_t com,uint8_t num);//数码管显示
 

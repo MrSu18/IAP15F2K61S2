@@ -377,19 +377,14 @@
           <GroupName>user</GroupName>
           <Files>
             <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\main.c</FilePath>
-            </File>
-            <File>
               <FileName>STARTUP.A51</FileName>
               <FileType>2</FileType>
               <FilePath>.\STARTUP.A51</FilePath>
             </File>
             <File>
-              <FileName>su_S12.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\su_S12.c</FilePath>
+              <FilePath>.\user\main.c</FilePath>
             </File>
           </Files>
         </Group>

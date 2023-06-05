@@ -16,7 +16,12 @@ void Time0_Sever() interrupt 1	//定时器0中断回调函数
 
 void Time1_Sever()	interrupt 3//定时器1中断回调函数
 {
-	static uint16_t ne555_cnt=0,digitaltube_cnt=0;
+	;
+}
+
+void Time2_Sever()	interrupt 12//定时器2中断回调函数
+{
+		static uint16_t ne555_cnt=0,digitaltube_cnt=0;
 	//==============动态刷新数码管一次中断就刷新一位==================
 	static uint8_t i=0;
 	digitaltube_cnt++;

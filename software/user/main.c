@@ -11,10 +11,6 @@
 #include "su_S12.h"
 #include "su_pcf8591.h"
 
-#include "iic.h"
-#define PCF8591_W_ADD	0X90	//PCF8591的写地址
-#define PCF8591_R_ADD	0X91	//PCF8591的读地址
-
 void main(void)
 {	
 	uint8_t adc;
@@ -33,7 +29,6 @@ void main(void)
 	EA=1;
 	while (1)
 	{
-		printf("%d\r\n",frequency);
 		Delay500ms();
 	}
 	

@@ -1,6 +1,5 @@
 #include "su_usart.h"
 #include <stc15f2k60s2.h>
-#include "su_common_typedef.h"
 
 void UartInit(void)		//9600bps@12.000MHz
 {
@@ -13,8 +12,7 @@ void UartInit(void)		//9600bps@12.000MHz
 	ET1 = 0;			//禁止定时器中断
 	TR1 = 1;			//定时器1开始计时
     ////////////////////以上为ISP软件生成////////////////
-//  EA=1;       //打开中断总开关
-//	ES=1;       // 允许串口中断
+	ES=1;       // 允许串口中断
 }
 
 
@@ -34,12 +32,121 @@ char putchar(char c)
 }
 
 unsigned char Rdat;
+
+//串口中断服务函数
 void ServiceUart() interrupt 4
 {
+	uint8_t result=0;
 	if(RI==1)//如果接收完成
 	{
 		Rdat=SBUF;//Rdat为从上位机接收到的数据
+		result=StrCheck(Rdat);
+		if(result==1)
+		{
+			printf("queset read data\r\n");
+		}
+		else if(result==2)
+		{
+			printf("queset read parameter\r\n");
+		}
 		RI=0;				
-		SendByte(Rdat);//再将收到的数据再发送到上位机
+//		SendByte(Rdat);//再将收到的数据再发送到上位机
 	}
 }
+
+uint8_t StrCheck(uint8_t ch)//检测字符串是否匹配，状态机检测
+{
+	static uint8_t read_data_status=0,read_parameter_status=0;
+	switch(ch)
+	{
+		case 'S':
+			if(read_data_status==0 && read_parameter_status==0)
+			{
+				read_data_status=1;
+			}
+			else
+			{
+				read_data_status=0;read_parameter_status=0;
+			}
+			break;
+		case 'T':
+			if(read_data_status==1 && read_parameter_status==0)
+			{
+				read_data_status=2;
+			}
+			else
+			{
+				read_data_status=0;read_parameter_status=0;
+			}
+			break;
+		case 'P':
+			if(read_data_status==0 && read_parameter_status==0)
+			{
+				read_parameter_status=1;
+			}
+			else
+			{
+				read_data_status=0;read_parameter_status=0;
+			}
+			break;
+		case 'A':
+			if(read_data_status==0 && read_parameter_status==1)
+			{
+				read_parameter_status=2;
+			}
+			else if(read_data_status==0 && read_parameter_status==3)
+			{
+				read_parameter_status=4;
+			}
+			else
+			{
+				read_data_status=0;read_parameter_status==0;
+			}
+			break;
+		case 'R':
+			if(read_data_status==0 && read_parameter_status==2)
+			{
+				read_parameter_status=3;
+			}
+			else
+			{
+				read_data_status=0;read_parameter_status=0;
+			}
+			break;
+		case '\r':
+			if(read_data_status==2 && read_parameter_status==0)
+			{
+				read_data_status=3;
+			}
+			else if(read_data_status==0 && read_parameter_status==4)
+			{
+				read_parameter_status=5;
+			}
+			else
+			{
+				read_data_status=0;read_parameter_status=0;
+			}
+			break;
+		case '\n':
+			if(read_data_status==3 && read_parameter_status==0)
+			{
+				read_data_status=0;read_parameter_status=0;
+				return 1;
+			}
+			else if(read_data_status==0 && read_parameter_status==5)
+			{
+				read_data_status=0;read_parameter_status=0;
+				return 2;
+			}
+			else
+			{
+				read_data_status=0;read_parameter_status=0;
+			}
+			break;
+		default:
+			read_data_status=0;read_parameter_status=0;
+			break;
+	}
+	return 0;
+}
+

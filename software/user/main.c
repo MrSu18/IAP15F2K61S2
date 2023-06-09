@@ -33,17 +33,17 @@ void main(void)
 	EA=1;
 	while (1)
 	{
-		// if(adc_flag==1)
-		// {
-		// 	adc=PCF8591_ADC(0x43);
-		// 	PCF8591_Dac(0x43,adc);
-		// 	adc_flag=0;
-		// }
-		// if (temperature_flag==1)
-		// {
-		// 	Read_DS18B20_temp();
-		// 	temperature_flag=0;
-		// }
+		if(adc_flag==1)
+		{
+			adc=PCF8591_ADC(0x43);
+			PCF8591_Dac(0x43,adc);
+			adc_flag=0;
+		}
+		if (temperature_flag==1)
+		{
+			Read_DS18B20_temp();
+			temperature_flag=0;
+		}
 		if (ultrasonic_flag==1)
 		{
 			distance=UltrasonicMeasure();

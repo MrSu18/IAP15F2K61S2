@@ -17,14 +17,26 @@ void Delay12us()		//@12.000MHz
 
 void UltrasonicStar(void)//启动超声波模块
 { 
-	unsigned char i;
-	for(i=0;i<8;i++)
+	unsigned char ucNum=10;
+	TX=0;
+	TL0=0XF4;TH0=0XFF;
+	TR0=1;
+	while (ucNum--)
 	{
-		TX=1;
-		Delay12us();
-		TX=0;
-		Delay12us();
+		while (!TF0);
+		TX^=1;
+		TF0=0;
 	}
+	TR0=0;
+	TL0=TH0=0;
+	// unsigned char i;
+	// for(i=0;i<8;i++)
+	// {
+	// 	TX=1;
+	// 	Delay12us();
+	// 	TX=0;
+	// 	Delay12us();
+	// }
 } 
 
 unsigned int UltrasonicMeasure(void) //需要用的时候直接调用这里就好了

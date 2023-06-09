@@ -32,7 +32,7 @@ uint8_t AdcRead()
 	uint8_t _data;
 	_data = IIC_RecByte();
 	IIC_SendAck(0);
-	
+	return _data;
 }
 
 //¶ÁÈ¡ADCµÄÖµ

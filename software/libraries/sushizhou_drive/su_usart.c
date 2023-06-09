@@ -1,6 +1,10 @@
 #include "su_usart.h"
 #include <stc15f2k60s2.h>
 
+uint8_t read_data_str[4]="ST\r\n";
+uint8_t read_data_cnt=0;
+uint8_t read_data_flag=0;
+
 void UartInit(void)		//9600bps@12.000MHz
 {
 	SCON = 0x50;		//8位数据,可变波特率
@@ -40,7 +44,7 @@ void ServiceUart() interrupt 4
 	if(RI==1)//如果接收完成
 	{
 		Rdat=SBUF;//Rdat为从上位机接收到的数据
-		result=StrCheck(Rdat);
+		result=StrCheck(read_data_str,&read_data_cnt,Rdat);
 		if(result==1)
 		{
 			printf("queset read data\r\n");
@@ -54,98 +58,20 @@ void ServiceUart() interrupt 4
 	}
 }
 
-uint8_t StrCheck(uint8_t ch)//检测字符串是否匹配，状态机检测
+uint8_t StrCheck(uint8_t* str , uint8_t* cnt, uint8_t ch)//检测字符串是否匹配，状态机检测
 {
-	static uint8_t read_data_status=0,read_parameter_status=0;
-	switch(ch)
+	if(str[*cnt]==ch)
 	{
-		case 'S':
-			if(read_data_status==0 && read_parameter_status==0)
-			{
-				read_data_status=1;
-			}
-			else
-			{
-				read_data_status=0;read_parameter_status=0;
-			}
-			break;
-		case 'T':
-			if(read_data_status==1 && read_parameter_status==0)
-			{
-				read_data_status=2;
-			}
-			else
-			{
-				read_data_status=0;read_parameter_status=0;
-			}
-			break;
-		case 'P':
-			if(read_data_status==0 && read_parameter_status==0)
-			{
-				read_parameter_status=1;
-			}
-			else
-			{
-				read_data_status=0;read_parameter_status=0;
-			}
-			break;
-		case 'A':
-			if(read_data_status==0 && read_parameter_status==1)
-			{
-				read_parameter_status=2;
-			}
-			else if(read_data_status==0 && read_parameter_status==3)
-			{
-				read_parameter_status=4;
-			}
-			else
-			{
-				read_data_status=0;read_parameter_status==0;
-			}
-			break;
-		case 'R':
-			if(read_data_status==0 && read_parameter_status==2)
-			{
-				read_parameter_status=3;
-			}
-			else
-			{
-				read_data_status=0;read_parameter_status=0;
-			}
-			break;
-		case '\r':
-			if(read_data_status==2 && read_parameter_status==0)
-			{
-				read_data_status=3;
-			}
-			else if(read_data_status==0 && read_parameter_status==4)
-			{
-				read_parameter_status=5;
-			}
-			else
-			{
-				read_data_status=0;read_parameter_status=0;
-			}
-			break;
-		case '\n':
-			if(read_data_status==3 && read_parameter_status==0)
-			{
-				read_data_status=0;read_parameter_status=0;
-				return 1;
-			}
-			else if(read_data_status==0 && read_parameter_status==5)
-			{
-				read_data_status=0;read_parameter_status=0;
-				return 2;
-			}
-			else
-			{
-				read_data_status=0;read_parameter_status=0;
-			}
-			break;
-		default:
-			read_data_status=0;read_parameter_status=0;
-			break;
+		(*cnt)++;
+		if(*cnt==4)
+		{
+			(*cnt)=0;
+			return 1;
+		}
+	}
+	else
+	{
+		(*cnt)=0;
 	}
 	return 0;
 }

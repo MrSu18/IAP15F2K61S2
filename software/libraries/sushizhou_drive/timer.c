@@ -8,6 +8,9 @@
 #include "su_digital_tube.h"
 #include "su_ne555.h"
 #include "su_pwm.h"
+#include "su_pcf8591.h"
+
+extern uint8_t adc;
 
 void Time0_Sever() interrupt 1	//定时器0中断回调函数
 {
@@ -21,7 +24,7 @@ void Time1_Sever()	interrupt 3//定时器1中断回调函数
 
 void Time2_Sever()	interrupt 12//定时器2中断回调函数
 {
-		static uint16_t ne555_cnt=0,digitaltube_cnt=0;
+	static uint16_t ne555_cnt=0,digitaltube_cnt=0;
 	//==============动态刷新数码管一次中断就刷新一位==================
 	static uint8_t i=0;
 	digitaltube_cnt++;

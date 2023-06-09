@@ -11,6 +11,8 @@
 #include "su_S12.h"
 #include "su_pcf8591.h"
 
+uint8_t adc=0;
+
 void main(void)
 {	
 	uint8_t adc;
@@ -29,7 +31,13 @@ void main(void)
 	EA=1;
 	while (1)
 	{
-		Delay500ms();
+		EA=0;
+		adc=AdcRead();
+		EA=1;
+		digitaltube_show[0]=t_display[adc/100%10];
+		digitaltube_show[1]=t_display[adc/10%10];
+		digitaltube_show[2]=t_display[adc%10];
+		Delay50ms();
 	}
 	
 }

@@ -96,3 +96,14 @@ void Delay200ms()		//@12.000MHz
 	} while (--i);
 }
 
+void Delay50ms()		//@12.000MHz
+{
+	unsigned char i, j;
+
+	i = 98;
+	j = 67;
+	do
+	{
+		while (--j);
+	} while (--i);
+}

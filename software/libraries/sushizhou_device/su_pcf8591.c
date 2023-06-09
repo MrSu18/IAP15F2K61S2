@@ -54,12 +54,12 @@ uint8_t PCF8591_ADC(uint8_t control_byte)
 }
 
 // DAC 输出
-void PCF8591_Dac(unsigned char dat) 
+void PCF8591_Dac(uint8_t control_byte,unsigned char dat) // 控制字，DA输出的值
 { 
 	IIC_Start(); 
 	IIC_SendByte(PCF8591_W_ADD); 
 	IIC_WaitAck(); 
-	IIC_SendByte(0x40); // 允许 DAC，ADC 通道 3 
+	IIC_SendByte(control_byte); // 允许 DAC，ADC 通道 3 
 	IIC_WaitAck(); 
 	IIC_SendByte(dat); // dat-输出数模转换的数据
 	IIC_WaitAck(); 

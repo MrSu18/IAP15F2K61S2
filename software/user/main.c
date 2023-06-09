@@ -34,6 +34,7 @@ void main(void)
 		if(adc_flag==1)
 		{
 			adc=PCF8591_ADC(0x43);
+			PCF8591_Dac(0x43,adc);
 			adc_flag=0;
 		}
 		// printf("%bu\r\n",adc);

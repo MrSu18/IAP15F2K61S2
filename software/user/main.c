@@ -11,7 +11,7 @@
 #include "su_S12.h"
 #include "su_pcf8591.h"
 
-uint8_t adc=0;
+uint8_t adc_flag=0;
 
 void main(void)
 {	
@@ -31,13 +31,15 @@ void main(void)
 	EA=1;
 	while (1)
 	{
-		EA=0;
-		adc=AdcRead();
-		EA=1;
+		if(adc_flag==1)
+		{
+			adc=PCF8591_ADC(0x43);
+			adc_flag=0;
+		}
+		// printf("%bu\r\n",adc);
 		digitaltube_show[0]=t_display[adc/100%10];
 		digitaltube_show[1]=t_display[adc/10%10];
 		digitaltube_show[2]=t_display[adc%10];
-		Delay50ms();
 	}
 	
 }

@@ -10,8 +10,9 @@
 #include "su_digital_tube.h"
 #include "su_S12.h"
 #include "su_pcf8591.h"
+#include "su_ds18b20.h"
 
-uint8_t adc_flag=0;
+uint8_t adc_flag=0,temperature_flag=0;
 
 void main(void)
 {	
@@ -37,10 +38,20 @@ void main(void)
 			PCF8591_Dac(0x43,adc);
 			adc_flag=0;
 		}
+		if (temperature_flag==1)
+		{
+			Read_DS18B20_temp();
+			temperature_flag=0;
+		}
+		
 		// printf("%bu\r\n",adc);
 		digitaltube_show[0]=t_display[adc/100%10];
 		digitaltube_show[1]=t_display[adc/10%10];
 		digitaltube_show[2]=t_display[adc%10];
+
+		digitaltube_show[5]=t_display[temperature/100%10];
+		digitaltube_show[6]=t_display[temperature/10%10];
+		digitaltube_show[7]=t_display[temperature%10];
 	}
 	
 }

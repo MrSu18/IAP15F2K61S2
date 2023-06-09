@@ -37,7 +37,7 @@ void Read_DS18B20_temp()
 	init_ds18b20();
 	Write_DS18B20(0xCC);
     Write_DS18B20(0x44); //Æô¶¯ÎÂ¶È×ª»»
-	Delay_OneWire(200);
+	// Delay_OneWire(200);
 	
 	init_ds18b20();
     Write_DS18B20(0xCC);

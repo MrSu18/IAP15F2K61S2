@@ -27,7 +27,7 @@ void UltrasonicStar(void)//启动超声波模块
 	}
 } 
 
-unsigned char UltrasonicMeasure(void) //需要用的时候直接调用这里就好了
+unsigned int UltrasonicMeasure(void) //需要用的时候直接调用这里就好了
 { 
 	unsigned int time=0;
 	TMOD&=0XF0;
@@ -40,11 +40,11 @@ unsigned char UltrasonicMeasure(void) //需要用的时候直接调用这里就好了
 	{
 		time=TH0<<8|TL0;//声波出去回来的时间
 		//计数值+1表示1us，因为是12T
-		return time*0.017;//时间换算
+		return time*0.017;//时间换算,cm
 	}
 	else
 	{
 		TF0=0;
-		return 200;
+		return 0;
 	}
 }

@@ -2,6 +2,6 @@
 #define __Ultrasonic_H_ 
 
 
-unsigned char UltrasonicMeasure(void); 
+unsigned int UltrasonicMeasure(void); 
 
 #endif

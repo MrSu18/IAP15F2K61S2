@@ -19,7 +19,7 @@ void Write_Eeprom(unsigned char add,unsigned char val)
     IIC_SendByte(val);
     IIC_WaitAck();
     IIC_Stop();
-	Delay10ms();
+	Delay5ms();
 }
 
 /**

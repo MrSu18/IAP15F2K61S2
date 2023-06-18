@@ -12,12 +12,13 @@
 #include "su_pcf8591.h"
 #include "su_ds18b20.h"
 #include "su_eeprom.h"
+#include "su_key.h"
 
 uint8_t adc_flag=0,temperature_flag=0,ultrasonic_flag=0;
 
 void main(void)
 {	
-	uint8_t adc,eeprom;
+	uint8_t adc,eeprom,key_now,key_old,key_down;
 	uint16_t distance;
 	//关闭蜂鸣器和继电器
 	P04=0;P06=0;Select_Latch(5);
@@ -35,28 +36,56 @@ void main(void)
 	EA=1;
 	while (1)
 	{
-		if(adc_flag==1)
+		key_now=ReadKeyBoard();
+		key_down=key_now&(key_now^key_old);
+		key_old=key_now;
+		switch (key_down)
 		{
-			adc=PCF8591_ADC(0x43);
-			Write_Eeprom(0,adc);
-			adc_flag=0;
+		case 4:
+			printf("void UltrasonicStar(void)//启动超声波模块\r\n");
+			printf("{ \r\n");
+			printf("	unsigned char ucNum=10;\r\n");
+			printf("	TX=0;\r\n");
+			printf("	TL0=0XF4;TH0=0XFF;\r\n");
+			printf("	TR0=1;\r\n");
+			printf("	while (ucNum--)\r\n");
+			printf("	{\r\n");
+			printf("		while (!TF0);\r\n");
+			printf("		TX^=1;\r\n");
+			printf("		TF0=0;\r\n");
+			printf("	}\r\n");
+			printf("	TR0=0;\r\n");
+			printf("	TL0=TH0=0;\r\n");
+			printf("} \r\n");
+			break;
+		case 5:
+			printf("eeprom写操作最后的延迟可以改为5ms\r\n");
+			printf("ds18b20中的Delay_OneWire(200);可以去掉\r\n");
+			printf("超声波返回值是cm单位\r\n");
+			printf("超声波的触发信号按S4打印出来的写\r\n");
+			break;
+		case 8:
+			printf("uint8_t StrCheck(uint8_t* str , uint8_t* cnt, uint8_t ch)//检测字符串是否匹配，状态机检测\r\n");
+			printf("{\r\n");
+			printf("	if(str[*cnt]==ch)\r\n");
+			printf("	{\r\n");
+			printf("		(*cnt)++;\r\n");
+			printf("		if(*cnt==4)\r\n");
+			printf("		{\r\n");
+			printf("			(*cnt)=0;\r\n");
+			printf("			return 1;\r\n");
+			printf("		}\r\n");
+			printf("	}\r\n");
+			printf("	else\r\n");
+			printf("	{\r\n");
+			printf("		(*cnt)=0;\r\n");
+			printf("	}\r\n");
+			printf("	return 0;\r\n");
+			printf("}\r\n");
+			break;
+		default:
+			break;
 		}
-		if (temperature_flag==1)
-		{
-			Read_DS18B20_temp();
-			temperature_flag=0;
-		}
-		if (ultrasonic_flag==1)
-		{
-			distance=UltrasonicMeasure();
-			ultrasonic_flag=0;
-		}
-		digitaltube_show[0]=t_display[eeprom/100%10];
-		digitaltube_show[1]=t_display[eeprom/10%10];
-		digitaltube_show[2]=t_display[eeprom%10];
-		digitaltube_show[5]=t_display[adc/100%10];
-		digitaltube_show[6]=t_display[adc/10%10];
-		digitaltube_show[7]=t_display[adc%10];
 	}
 	
 }

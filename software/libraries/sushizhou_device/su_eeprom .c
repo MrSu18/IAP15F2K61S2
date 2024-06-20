@@ -45,7 +45,8 @@ uint8_t Read_Eeprom(uint8_t add)
 	IIC_SendByte(0xa1);
 	IIC_WaitAck();
 	da = IIC_RecByte();
-	IIC_SendAck(0); 
+	// IIC_SendAck(0);//错了，一个改成waitack 
+	IIC_WaitAck();
 	IIC_Stop();
 	EA = 1;//打开中断
 

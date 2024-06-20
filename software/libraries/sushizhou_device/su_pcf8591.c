@@ -36,7 +36,7 @@ uint8_t AdcRead()
 }
 
 //读取ADC的值
-uint8_t PCF8591_ADC(uint8_t control_byte)
+uint8_t PCF8591_ADC(uint8_t control_byte) //PS：用这个比较没bug
 {
 	uint8_t _data;
 	IIC_Start();
